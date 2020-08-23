@@ -22,16 +22,29 @@
 
 #### Output目录结构：
 --html
+
  |--alumni1
+ 
    |
+   
    |--searchResult1
+   
    |--searchResult2
+   
    |--...
+   
    |--searchResult10
+   
  |--alumni2
+ 
    |
+   
    |--searchResult1
+   
    |--searchResult2
+   
    |--...
+   
    |--searchResult10
+   
  |--...
