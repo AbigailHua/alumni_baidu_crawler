@@ -26,15 +26,27 @@
 
 #### Output目录结构：
 └─html
+
     ├─alumni1
+    
     │      searchResult1.txt
+    
     │      searchResult2.txt
+    
     │      ...
+    
     │      searchResult10.txt
+    
     │      
+    
     └─alumni2
+    
     │      searchResult1.txt
+    
     │      searchResult2.txt
+    
     │      ...
+    
     │      searchResult10.txt
+    
     └─...
