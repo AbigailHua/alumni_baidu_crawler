@@ -18,33 +18,23 @@
 
 ### Output
 
-一个名为html的文件夹，与.py同级，下面的子文件夹以校友名字命名，子文件夹里保存搜索结果
+一个名为html的文件夹，与.py同级
+
+下面的子文件夹以校友名字命名
+
+子文件夹里保存搜索结果的txt文件，文件名为根据Windows文件命名规则处理后的网页title
 
 #### Output目录结构：
---html
-
- |--alumni1
- 
-   |
-   
-   |--searchResult1
-   
-   |--searchResult2
-   
-   |--...
-   
-   |--searchResult10
-   
- |--alumni2
- 
-   |
-   
-   |--searchResult1
-   
-   |--searchResult2
-   
-   |--...
-   
-   |--searchResult10
-   
- |--...
+└─html
+    ├─alumni1
+    │      searchResult1.txt
+    │      searchResult2.txt
+    │      ...
+    │      searchResult10.txt
+    │      
+    └─alumni2
+    │      searchResult1.txt
+    │      searchResult2.txt
+    │      ...
+    │      searchResult10.txt
+    └─...
