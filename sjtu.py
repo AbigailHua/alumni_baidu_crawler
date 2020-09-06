@@ -3,6 +3,12 @@ from bs4 import BeautifulSoup
 import requests
 import time
 import os
+import re
+
+
+def delete_redundent(s):
+    s = re.sub(r'\n+', "\n", s)
+    return s.strip()
 
 
 def openFile(path):
@@ -15,11 +21,21 @@ def openFile(path):
 
 def get_page(page):
     try:
-        r = requests.get(url=page, headers=headers)
-        r.encoding = r.apparent_encoding
-        print("Requesting ", r.url)
-        if r.status_code == 200:
-            return r.text
+        for i in range(3):
+            r = requests.get(url=page, headers=headers)
+            r.encoding = r.apparent_encoding
+            print("Requesting ", r.url)
+            if r.status_code == 200:
+                if r.url.find("wappass.baidu.com") != -1:
+                    print("Blocked by Baidu!")
+                    for t in range(6):
+                        time.sleep(100)
+                        print("Sleep countdown: {} mins...".formate(6-t))
+                else:
+                    return r.text
+            else:
+                continue
+        print("Failed to get url "+page)
         return ""
     except Exception as e:
         print(e)
@@ -44,26 +60,25 @@ def savePage(name, title, url):
     filename += ".txt"
     if not os.path.exists(folder):
         os.mkdir(folder)
-        print(folder+" created!")
     if not os.path.exists(subfolder):
         os.mkdir(subfolder)
-        print(subfolder+" created!")
     content = get_page(url)
     time.sleep(2)
     if content:
+        soup = BeautifulSoup(content, "html.parser")
+        fr = soup.get_text()
+        fr = delete_redundent(fr)
         f = open(os.path.join(subfolder, filename), 'w', encoding="utf-8")
-        f.write(content)
+        f.write(fr)
         f.close()
-        print(filename[:-4]+" written!")
         index = open(idx_filename, 'a', encoding="utf-8")
         index.write(title + '\t' + filename + '\t' + url + '\n')
         index.close()
-        print("Logged in index!")
 
 
 def spider(name):
     return_dict = {}
-    word = name+"上海交通大学"
+    word = "%2B\""+name+"\"%2B上海交通大学"
     url = u'http://www.baidu.com.cn/s?wd=' + word + '&cl=3'
     try:
         content = get_page(url)
@@ -75,7 +90,9 @@ def spider(name):
                 title = a.text
                 if title and link:
                     return_dict[title] = link
-                    print(link, title)
+                    print(link)
+                    print(title)
+                    print("----------------------------------------------------")
                     savePage(name, title, link)
     except Exception as e:
         print("Error: ", e)
@@ -95,7 +112,6 @@ def run(file_path):
 
 
 if __name__ == '__main__':
-    seed = 'https://www.baidu.com/s?'
     headers = {
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Accept-Encoding': 'gzip, deflate, compress',
